@@ -1,0 +1,58 @@
+---
+- hosts: web
+  vars:
+  - warLocalPath: /usr/to/
+  - warName: helloworld.war
+  - warRemotePath: /usr/to/file/webapps
+  
+
+#  tasks:
+#  - name: Synchronize backup war file
+#    synchronize: src="/usr/to/file/webapps/{{ warLocalPath }}" 
+
+#  - name: remove web dir contents
+#    file: path={{ warRemotePath }}/usr/to/file/webapps/{{ item }}' state=absent
+#     with_fileglob:
+#       - /usr/to/file/webapps/*
+	
+  - name: Download WAR to server
+:x    synchronize: src={{ warLocalPath }}/{{ warName }} dest={{ warRemotePath }}/{{ warName }}
+
+  - name: Unzip
+    unarchive: src={{ warRemotePath }}/{{ warName }} dest=/usr/to/file/webapps/ copy=no mode=0755
+
+
+  - name: replace command
+    replace:
+      path: /usr/to/content.xml
+      regexp: 'raman'
+      replace: 'vivek'
+
+  - name: change url name in file
+    raw: grep -r "eoffice.eofficedr.gov.in" -l /usr/to/file | tr '\n' ' ' | xargs sed -i 's/eoffice.eofficedr.gov.in/chd.eofficedr.gov.in/g'
+
+grep -r "10.153.131.69" -l | tr '\n' ' ' | xargs sed -i 's/10.153.131.69/10.153.131.68/g'
+
+mcd doc
+
+/mcsdocs
+/mcslogs
+
+
+usermod -G users,wheel,audio,dialout mcd
+
+chown -R nfsnobody:nfsnobody /mcsdocs/
+
+mcd:x:501:501:mcd:/mcs:/bin/bash
+
+mcd:x:501:
+
+fstab
+
+
+10.153.131.71:/mcslogs /mcslogs                   nfs     defaults,nodev        0 0
+
+/mcslogs 10.153.131.68(rw,all_squash,sync,anonuid=501,anongid=501)
+/mcslogs 10.153.131.69(rw,all_squash,sync,anonuid=501,anongid=501)
+/mcslogs 10.153.131.70(rw,all_squash,sync,anonuid=501,anongid=501)
+
